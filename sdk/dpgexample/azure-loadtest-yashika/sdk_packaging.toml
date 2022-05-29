@@ -1,0 +1,6 @@
+[packaging]
+package_name = "azure-analytics-loadtestexample"
+package_pprint_name = "Azure Analytics LoadTest"
+package_doc_id = ""
+is_stable = false
+is_arm = false

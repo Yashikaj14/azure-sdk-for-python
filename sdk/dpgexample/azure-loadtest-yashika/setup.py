@@ -14,7 +14,7 @@ PACKAGE_NAME = "azure-analytics-loadtestexample"
 PACKAGE_PPRINT_NAME = "Azure Analytics LoadTest"
 
 # a-b-c => a/b/c
-package_folder_path = PACKAGE_NAME.replace("-", "/")
+package_folder_path = PACKAGE_NAME.replace("-", os.path.sep)
 
 # Version extraction inspired from 'requests'
 with open(os.path.join(package_folder_path, "_version.py"), "r") as fd:

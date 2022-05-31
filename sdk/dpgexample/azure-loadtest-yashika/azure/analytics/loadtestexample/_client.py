@@ -64,7 +64,7 @@ class LoadTestClient:
             self._client, self._config, self._serialize, self._deserialize
         )
         self.test = TestOperations(  # type: ignore # pylint: disable=abstract-class-instantiated
-            self._client, self._config, self._serialize, self._deserialize
+            # self._client, self._config, self._serialize, self._deserialize
         )
         self.test_run = TestRunOperations(
             self._client, self._config, self._serialize, self._deserialize

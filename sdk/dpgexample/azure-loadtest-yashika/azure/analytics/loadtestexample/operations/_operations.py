@@ -20,7 +20,18 @@ from azure.core.rest import HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 
-from .._vendor import _format_url_section
+# from .._vendor import _format_url_section
+def _format_url_section(template, **kwargs):
+    components = template.split("/")
+    while components:
+        try:
+            return template.format(**kwargs)
+        except KeyError as key:
+            formatted_components = template.split("/")
+            components = [
+                c for c in formatted_components if "{}".format(key.args[0]) not in c
+            ]
+            template = "/".join(components)
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:

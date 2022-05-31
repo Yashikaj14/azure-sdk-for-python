@@ -532,7 +532,7 @@ def build_test_list_load_test_search_request(
     )
 
 
-def build_test_upload_test_file_request(
+def build_test_test_file_request(
     *args,
     **kwargs
 ) -> HttpRequest:
@@ -1875,6 +1875,7 @@ class TestOperations(abc.ABC):
 
     def __init__(self, *args, **kwargs):
         input_args = list(args)
+  
         self._client = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")

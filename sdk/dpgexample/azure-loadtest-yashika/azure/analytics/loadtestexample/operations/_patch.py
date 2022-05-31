@@ -10,8 +10,13 @@ from typing import List
 
 from ._operations import TestOperations as TestOperationsGenerated
 class TestOperations(TestOperationsGenerated):
+    def __init__(self, *args, **kwargs):
+        #print(*args,**kwargs)
+        super(TestOperations, self).__init__(*args, **kwargs)
+
     def upload_test_file():
-        print('hello')
+        print("hello")
+        return super().upload_test_file()
 
 
 

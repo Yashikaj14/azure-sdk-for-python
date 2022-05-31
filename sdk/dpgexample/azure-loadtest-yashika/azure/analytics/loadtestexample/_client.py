@@ -53,7 +53,6 @@ class LoadTestClient:
         
         self._config = LoadTestClientConfiguration(credential=credential, **kwargs)
         self._client = PipelineClient(base_url=endpoint, config=self._config, **kwargs)
-
         self._serialize = Serializer()
         self._deserialize = Deserializer()
         self._serialize.client_side_validation = False
@@ -64,7 +63,7 @@ class LoadTestClient:
             self._client, self._config, self._serialize, self._deserialize
         )
         self.test = TestOperations(  # type: ignore # pylint: disable=abstract-class-instantiated
-            # self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize
         )
         self.test_run = TestRunOperations(
             self._client, self._config, self._serialize, self._deserialize

@@ -7,7 +7,7 @@
 Follow our quickstart for examples: https://aka.ms/azsdk/python/dpcodegen/python/customize
 """
 #from ast import pattern
-from typing import IO, List
+from typing import IO, List, overload
 import sys
 from msrest import Serializer
 from azure.core.exceptions import ClientAuthenticationError, HttpResponseError, ResourceExistsError, ResourceNotFoundError, map_error
@@ -35,6 +35,7 @@ def _format_url_section(template, **kwargs):
 _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
+@overload
 def _convert_request(request, files=None):
     data = request.content if not files else None
     request = HttpRequest(method=request.method, url=request.url, headers=request.headers, data=data)
@@ -42,9 +43,11 @@ def _convert_request(request, files=None):
         request.set_formdata_body(files)
     return request
 
+@overload
 def build_upload_test_file_request(
         test_id: str,
         file_id: str,
+        file_content,
         **kwargs,
     ) -> HttpRequest:
         
@@ -73,6 +76,7 @@ def build_upload_test_file_request(
         return HttpRequest(
             method="PUT",
             url=_url,
+            add_files=file_content,
             params=_params,
             headers=_headers,
             **kwargs
@@ -84,13 +88,12 @@ class TestOperations(TestOperationsGenerated):
         #print(*args,**kwargs)
         super(TestOperations, self).__init__(*args, **kwargs)
     
-    
+    @overload
     def upload_test_file(
         self,
         test_id: str,
         file_id: str,
         file_content, 
-        *args,
         **kwargs
     ) -> JSON:
         """
@@ -111,11 +114,11 @@ class TestOperations(TestOperationsGenerated):
             if not next_link:
                 
                 request = build_upload_test_file_request(
-                    api_version=api_version,
-                    template_url=self.list.metadata['url'],
                     test_id=test_id,
                     file_id=file_id,
-                    # content=_content,
+                    content=_content,
+                    api_version=api_version,
+                    template_url=self.list.metadata['url'],
                     headers=_headers,
                     params=_params,
                 )
@@ -125,11 +128,11 @@ class TestOperations(TestOperationsGenerated):
             else:
                 
                 request = build_upload_test_file_request(
-                    api_version=api_version,
-                    template_url=next_link,
                     test_id=test_id,
                     file_id=file_id,
                     content=_content,
+                    api_version=api_version,
+                    template_url=next_link,
                     headers=_headers,
                     params=_params,
                 )
@@ -166,7 +169,7 @@ class TestOperations(TestOperationsGenerated):
 
         return ItemPaged(get_next, extract_data)
         
-           
+        
 
        
     

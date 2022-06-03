@@ -8,6 +8,8 @@
 # --------------------------------------------------------------------------
 import abc
 import datetime
+from distutils.command import upload
+from pickle import PUT
 import sys
 from typing import Any, Callable, Dict, Optional, TypeVar, cast
 
@@ -20,25 +22,25 @@ from azure.core.rest import HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 
-# from .._vendor import _format_url_section
-def _format_url_section(template, **kwargs):
-    components = template.split("/")
-    while components:
-        try:
-            return template.format(**kwargs)
-        except KeyError as key:
-            formatted_components = template.split("/")
-            components = [
-                c for c in formatted_components if "{}".format(key.args[0]) not in c
-            ]
-            template = "/".join(components)
-if sys.version_info >= (3, 9):
-    from collections.abc import MutableMapping
-else:
-    from typing import MutableMapping  # type: ignore
-JSON = MutableMapping[str, Any] # pylint: disable=unsubscriptable-object
-T = TypeVar('T')
-ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
+from .._vendor import _format_url_section
+# def _format_url_section(template, **kwargs):
+#     components = template.split("/")
+#     while components:
+#         try:
+#             return template.format(**kwargs)
+#         except KeyError as key:
+#             formatted_components = template.split("/")
+#             components = [
+#                 c for c in formatted_components if "{}".format(key.args[0]) not in c
+#             ]
+#             template = "/".join(components)
+# if sys.version_info >= (3, 9):
+#     from collections.abc import MutableMapping
+# else:
+#     from typing import MutableMapping  # type: ignore
+# JSON = MutableMapping[str, Any] # pylint: disable=unsubscriptable-object
+# T = TypeVar('T')
+# ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
 _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
@@ -2725,7 +2727,7 @@ class TestOperations(abc.ABC):
         https://aka.ms/azsdk/python/dpcodegen/python/customize to learn how to customize.
 
         """
-
+       
 
     @distributed_trace
     def get_test_file(

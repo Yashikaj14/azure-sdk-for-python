@@ -76,7 +76,7 @@ def build_upload_test_file_request(
         return HttpRequest(
             method="PUT",
             url=_url,
-            add_files=file_content,
+            files=file_content,
             params=_params,
             headers=_headers,
             **kwargs

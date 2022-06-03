@@ -89,7 +89,7 @@ class TestOperations(TestOperationsGenerated):
         self,
         test_id: str,
         file_id: str,
-        file_content, #type: IO
+        file_content, 
         *args,
         **kwargs
     ) -> JSON:
@@ -129,7 +129,7 @@ class TestOperations(TestOperationsGenerated):
                     template_url=next_link,
                     test_id=test_id,
                     file_id=file_id,
-                    # content=_content,
+                    content=_content,
                     headers=_headers,
                     params=_params,
                 )
